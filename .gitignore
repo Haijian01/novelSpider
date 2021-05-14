@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Your ignores
+novels/
+*.html
+cached.txt
+
