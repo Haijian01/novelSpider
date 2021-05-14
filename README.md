@@ -1,5 +1,5 @@
 # novelSpider
-just for download novels
+just for downloading novels
 
 # install environment
 ## first install pip
