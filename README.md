@@ -8,3 +8,8 @@ just for download novels
 ```
 pip install lxml urllib3 
 ```
+
+# How to run
+```
+python novelSpider.py
+```
