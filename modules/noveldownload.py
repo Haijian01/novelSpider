@@ -11,7 +11,7 @@ import time
 downloadSetting = {}
 
 def initNovelSource(source='shuquge'):
-    global downloadSetting
+    global downloadSetting,novelSource
     downloadSetting = settings.settings[source]
 
 def get_url_content(http,url):
@@ -62,6 +62,13 @@ def create_html_tmp_folders():
     create_folder(tempHtmlFolderName)
     return tempHtmlFolderName
 
+def checkAndMerge(s1, s2):
+    m = min(len(s1), len(s2))
+    for i in range(m, 0, -1):
+        if s1[-i:]==s2[:i]:
+            return s1+s2[i:]
+    return s1+s2
+
 def download_chapter_task(q):
     while True:
         if q.empty():
@@ -73,7 +80,7 @@ def download_chapter_task(q):
             url = args['url']
             index = args['index']
             folderName = args['folderName']
-            chapterDomContent = get_url_content(http,homeUrl+url)
+            chapterDomContent = get_url_content(http,checkAndMerge(homeUrl,url))
             nNamePath = folderName+'/'+str(index)+".html"
             if os.path.isfile(nNamePath):
                 os.remove(nNamePath)

@@ -3,41 +3,18 @@ from lxml import etree
 from modules import noveldownload
 from settings import settings
 
-# searchUrl = 'http://www.shuquge.com/search.php'
-# searchFormKey = 'searchkey'
-# searchResultNovelUrlListXpath = '//div[@class="bookcase"]//h4[@class="bookname"]/a/@href'
-# searchResultNovelNameListXpath = '//div[@class="bookcase"]//h4[@class="bookname"]/a/text()'
-# homeUrl = 'http://www.shuquge.com'
 searchSetting = {}
-# searchUrl = ''
-# searchFormKey = ''
-# searchResultNovelUrlListXpath = ''
-# searchResultNovelNameListXpath = ''
-# homeUrl = ''
 
 def initNovelSource(source='shuquge'):
     global searchSetting
     novelSource = source
     searchSetting = settings.settings[source]
 
-# def initNovelSource(source='shuquge'):
-#     global novelSource
-#     global searchUrl
-#     global searchFormKey,searchResultNovelUrlListXpath
-#     global searchResultNovelNameListXpath,homeUrl
-#     novelSource = source
-#     ns = settings.settings
-#     searchUrl = ns[novelSource]['searchUrl']
-#     searchFormKey = ns[novelSource]['searchFormKey']
-#     searchResultNovelUrlListXpath = ns[novelSource]['searchResultNovelUrlListXpath']
-#     searchResultNovelNameListXpath = ns[novelSource]['searchResultNovelNameListXpath']
-#     homeUrl = ns[novelSource]['homeUrl']
-
 def search_content(http, searchKey):
     searchUrl = searchSetting['searchUrl']
     searchFormKey = searchSetting['searchFormKey']
-    searchForm={ searchFormKey : searchKey}
-    r = http.request('POST',searchUrl,fields=searchForm)
+    searchForm={ searchFormKey : searchKey ,'searchtype': 'all'}
+    r = http.request('POST',searchUrl,headers={'User-agent':'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36','Cookie':'Hm_lvt_359dc43321627151a4b3963ea8b7a00c=1621068443; Hm_lpvt_359dc43321627151a4b3963ea8b7a00c=1621068450'},fields=searchForm)
     content = r.data
     return content
 
@@ -87,5 +64,4 @@ def download_novels_by_search_key(skey):
     print(searchResultGroup)
     for index,r in enumerate(searchResultGroup):
         url = r['url']
-        print(url)
         noveldownload.get_novel_by_home_url(url)

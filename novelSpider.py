@@ -36,8 +36,10 @@ def main(searchResultGroup,condition,thread_num = 5):
 
 if __name__ == "__main__":
     start = time.time()
+    
     novelSource = 'shuquge'
-    searchKey = '间客'
+    # novelSource = 'soshuw'
+    searchKey = '傲世九重天'
 
     search.initNovelSource(novelSource)
     noveldownload.initNovelSource(novelSource)
