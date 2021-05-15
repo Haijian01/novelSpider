@@ -17,10 +17,14 @@ def work(q):
             noveldownload.get_novel_by_home_url(url)
             print("threadId-{} novelName-{} , url-{} finished.".format(tid,novelName,url))
 
-def main(searchResultGroup,thread_num = 5):
+def main(searchResultGroup,condition,thread_num = 5):
     q = queue.Queue()
     for r in searchResultGroup:
-        q.put(r)
+        if condition['isSameName']:
+            if r['name'] == condition['searchKey']:
+                q.put(r)
+        else:
+            q.put(r)
     threads = []
     for i in range(thread_num):
         t = threading.Thread(target=work, args=(q,))
@@ -32,8 +36,17 @@ def main(searchResultGroup,thread_num = 5):
 
 if __name__ == "__main__":
     start = time.time()
-    searchKey = '大秦帝国之纵横天下'
-    searchResultGroup = search.get_search_result_group_by_search_key(searchKey)
+    novelSource = 'shuquge'
+    searchKey = '间客'
+
+    search.initNovelSource(novelSource)
+    noveldownload.initNovelSource(novelSource)
+
+    condition = {}
+    condition['isSameName'] = True
+    condition['searchKey'] = searchKey
+
+    searchResultGroup = search.get_search_result_group_by_search_key(searchKey,novelSource)
     print(searchResultGroup)
-    main(searchResultGroup)
+    main(searchResultGroup,condition)
     print('耗时：', time.time() - start)
