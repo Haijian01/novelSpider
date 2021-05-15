@@ -1,6 +1,6 @@
 import urllib3
 from lxml import etree
-import noveldownload
+from modules import noveldownload
 
 def search_content(http, searchKey):
     searchUrl = 'http://www.shuquge.com/search.php'

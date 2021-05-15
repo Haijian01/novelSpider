@@ -1,8 +1,8 @@
-import search
 import time
 import queue
 import threading
-import noveldownload
+from modules import noveldownload 
+from modules import search
 
 def work(q):
     while True:
